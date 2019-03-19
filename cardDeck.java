@@ -2,7 +2,7 @@ import java.util.*;
 
 public class cardDeck{
 	
-	//initialize the array//
+	//initialize the array
 	private ArrayList<Card> deck;
 
 	public cardDeck(){
