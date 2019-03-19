@@ -1,0 +1,338 @@
+import java.io.IOException;
+import java.util.*;
+import java.util.Scanner;
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.text.DecimalFormat;
+
+public class iDeclareWar {
+	
+	public static void main(String[] args) throws IOException{
+
+		//declare variable
+		Card hearts;
+		Card diamonds;
+		Card spades;
+		Card clubs;
+		int count = 0;
+		Scanner keyboard = new Scanner(System.in);
+
+		//creates objects
+		cardDeck deckOfCards = new cardDeck();
+		cardDeck player1Deck = new cardDeck();
+		cardDeck player2Deck = new cardDeck();
+
+		//fill the array
+		for(int i = 2; i < 15; i++){
+			char heart = '\u2665';
+			char diamond ='\u2666';
+			char spade = '\u2660';
+			char club = '\u2663';
+
+			deckOfCards.add(hearts = new Card(heart, i));
+			deckOfCards.add(diamonds = new Card(diamond, i));
+			deckOfCards.add(spades = new Card(spade, i));
+			deckOfCards.add(clubs = new Card(club, i));
+		}
+
+		System.out.println("Deck Of Cards: " + deckOfCards);
+		deckOfCards.shuffle();
+		System.out.println("Deck of Cards after being shuffled: " + deckOfCards);
+		System.out.println("There are " + deckOfCards.size() + " cards in the deck.");
+
+		//pass out the cards
+		for(int i = 0; i < 26; i++){
+			player1Deck.add(deckOfCards.getTopCard());
+			player2Deck.add(deckOfCards.getTopCard());
+		}
+		
+		System.out.println();
+		System.out.println("Both player hands");
+		System.out.println("Player 1's Cards: " + player1Deck);
+		System.out.println("Player 2's Cards: " + player2Deck);
+		System.out.println();
+		System.out.println("Player 1 has " + player1Deck.size() + " cards.");
+		System.out.println("Player 2 has " + player2Deck.size() + " cards.");
+		System.out.println();
+		System.out.println("Now that the cards are passed out, lets play I Declare War.");
+		System.out.println("Player 1 pulls from their deck first, then player 2 pulls from their deck.");
+		System.out.println();
+		System.out.println("HAVE FUN!");
+		System.out.println();
+
+		try{
+			do{
+				Card player1DrawCard = player1Deck.getTopCard();
+				Card player2DrawCard = player2Deck.getTopCard();
+				
+				if(player1DrawCard.compareTo(player2DrawCard) < player2DrawCard.compareTo(player1DrawCard)){
+					System.out.println("Player 1 pulls a " + player1DrawCard + " Player 2 pulls a " + player2DrawCard);
+					System.out.println();
+					System.out.println("Player 2 gets the two cards");
+					System.out.println();
+					player2Deck.add(player1DrawCard);
+					player2Deck.add(player2DrawCard);
+					System.out.println("Player 1 now has " + player1Deck.size() + " cards left.");
+					System.out.println("Player 2 now has " + player2Deck.size() + " cards left.");
+					System.out.println("\n");
+					keyboard.nextLine();
+				}	
+				
+				else if(player1DrawCard.compareTo(player2DrawCard) > player2DrawCard.compareTo(player1DrawCard)){
+					System.out.println("Player 1 pulls a " + player1DrawCard + " Player 2 pulls a " + player2DrawCard);
+					System.out.println();
+					System.out.println("Player 1 gets the two cards");
+					System.out.println();
+					player1Deck.add(player1DrawCard);
+					player1Deck.add(player2DrawCard);
+					System.out.println("Player 1 now has " + player1Deck.size() + " cards left.");
+					System.out.println("Player 2 now has " + player2Deck.size() + " cards left.");
+					System.out.println("\n");
+					keyboard.nextLine();
+				}
+
+				else if(player1DrawCard.compareTo(player2DrawCard) == player2DrawCard.compareTo(player1DrawCard)){
+					System.out.println("Player 1 pulls a " + player1DrawCard + " Player 2 pulls a " + player2DrawCard);
+					System.out.println();
+					System.out.println("I Declare War!");
+					System.out.println();
+					//IDW if the player has only 4 cards left.
+				
+					if(player1DrawCard.compareTo(player2DrawCard) < player2DrawCard.compareTo(player1DrawCard)){
+						System.out.println("Player 1 pulls a " + player1DrawCard + " Player 2 pulls a " + player2DrawCard);
+						System.out.println();
+						System.out.println("Player 2 gets the two cards");
+						System.out.println();
+						player2Deck.add(player1DrawCard);
+						player2Deck.add(player2DrawCard);
+						System.out.println("Player 1 now has " + player1Deck.size() + " cards left.");
+						System.out.println("Player 2 now has " + player2Deck.size() + " cards left.");
+						System.out.println("\n");
+						keyboard.nextLine();
+					}
+					else if(player1DrawCard.compareTo(player2DrawCard) > player2DrawCard.compareTo(player1DrawCard)){
+						System.out.println("Player 1 pulls a " + player1DrawCard + " Player 2 pulls a " + player2DrawCard);
+						System.out.println();
+						System.out.println("Player 1 gets the two cards");
+						System.out.println();
+						player1Deck.add(player1DrawCard);
+						player1Deck.add(player2DrawCard);
+						System.out.println("Player 1 now has " + player1Deck.size() + " cards left.");
+						System.out.println("Player 2 now has " + player2Deck.size() + " cards left.");
+						System.out.println("\n");
+						keyboard.nextLine();
+					}}
+					if(player1Deck.size() == 1 || player2Deck.size() == 1){
+						Card player1DrawCard2 = player1Deck.getTopCard();
+						Card player2DrawCard2 = player2Deck.getTopCard();
+						
+						System.out.println("Player1's war card is a " + player1DrawCard2 + " Player2's war card is a " + player2DrawCard2);
+						if(player1DrawCard2.compareTo(player2DrawCard2) > player2DrawCard2.compareTo(player1DrawCard2)){
+							System.out.println();
+							System.out.println("Player 1 gets all the remaining cards");
+							System.out.println();
+							player1Deck.add(player1DrawCard);
+							player1Deck.add(player1DrawCard2);
+							player1Deck.add(player2DrawCard);
+							player1Deck.add(player2DrawCard2);
+							System.out.println("Player 1 now has " + player1Deck.size() + " cards left.");
+							System.out.println("Player 2 now has " + player2Deck.size() + " cards left.");
+							System.out.println("\n");
+							keyboard.nextLine();
+						}
+						else if(player1DrawCard2.compareTo(player2DrawCard2) < player2DrawCard2.compareTo(player1DrawCard2)){
+							System.out.println();
+							System.out.println("Player 2 gets all the remaining cards");
+							System.out.println();
+							player2Deck.add(player1DrawCard);
+							player2Deck.add(player1DrawCard2);
+							player2Deck.add(player2DrawCard);
+							player2Deck.add(player2DrawCard2);
+							System.out.println("Player 1 now has " + player1Deck.size() + " cards left.");
+							System.out.println("Player 2 now has " + player2Deck.size() + " cards left.");
+							System.out.println("\n");
+							keyboard.nextLine();
+						}
+						else{
+							if(player2Deck.size() == 0){
+								player1Deck.add(player2DrawCard2);
+								player1Deck.add(player2DrawCard);
+								player1Deck.add(player1DrawCard2);
+								player1Deck.add(player1DrawCard);
+							}
+							else{
+								player2Deck.add(player2DrawCard2);
+								player2Deck.add(player2DrawCard);
+								player2Deck.add(player1DrawCard2);
+								player2Deck.add(player1DrawCard);
+							}
+					}
+				}
+				//IDW if the player has only 2 cards left.
+				else if(player1Deck.size() == 2 || player2Deck.size() == 2){
+					Card player1DrawCard2 = player1Deck.getTopCard();
+					Card player1DrawCard3 = player1Deck.getTopCard();
+					Card player2DrawCard2 = player2Deck.getTopCard();
+					Card player2DrawCard3 = player2Deck.getTopCard();
+
+					//do{
+						System.out.println("Player1's war card is a " + player1DrawCard3 + " Player2's war card is a " + player2DrawCard3);
+						if(player1DrawCard3.compareTo(player2DrawCard3) > player2DrawCard3.compareTo(player1DrawCard3)){
+							System.out.println();
+							System.out.println("Player 1 gets all the remaining cards");
+							System.out.println();
+							player1Deck.add(player1DrawCard);
+							player1Deck.add(player1DrawCard2);
+							player1Deck.add(player1DrawCard3);
+							player1Deck.add(player2DrawCard);
+							player1Deck.add(player2DrawCard2);
+							player1Deck.add(player2DrawCard3);
+							System.out.println("Player 1 now has " + player1Deck.size() + " cards left.");
+							System.out.println("Player 2 now has " + player2Deck.size() + " cards left.");
+							System.out.println("\n");
+							keyboard.nextLine();
+						}
+						else if(player1DrawCard3.compareTo(player2DrawCard3) < player2DrawCard3.compareTo(player1DrawCard3)){
+							System.out.println();
+							System.out.println("Player 2 gets all the remaining cards");
+							System.out.println();
+							player2Deck.add(player1DrawCard);
+							player2Deck.add(player1DrawCard2);
+							player2Deck.add(player1DrawCard3);
+							player2Deck.add(player2DrawCard);
+							player2Deck.add(player2DrawCard2);
+							player2Deck.add(player2DrawCard3);
+							System.out.println("Player 1 now has " + player1Deck.size() + " cards left.");
+							System.out.println("Player 2 now has " + player2Deck.size() + " cards left.");
+							System.out.println("\n");
+							keyboard.nextLine();
+ 						}
+ 					}
+				//	while(player1DrawCard3.compareTo(player2DrawCard3) == player2DrawCard3.compareTo(player1DrawCard3));
+				//}
+				//IDW if the player has only 3 cards left.
+				else if(player1Deck.size() == 3 || player2Deck.size() == 3){
+					Card player1DrawCard2 = player1Deck.getTopCard();
+					Card player1DrawCard3 = player1Deck.getTopCard();
+					Card player1DrawCard4 = player1Deck.getTopCard();
+
+					Card player2DrawCard2 = player2Deck.getTopCard();
+					Card player2DrawCard3 = player2Deck.getTopCard();
+					Card player2DrawCard4 = player2Deck.getTopCard();
+
+					//do{
+						System.out.println("Player1's war card is a " + player1DrawCard4 + " Player2's war card is a " + player2DrawCard4);
+						if(player1DrawCard4.compareTo(player2DrawCard4) > player2DrawCard4.compareTo(player1DrawCard4)){
+							System.out.println();
+							System.out.println("Player 1 gets all the remaining cards");
+							System.out.println();
+							player1Deck.add(player1DrawCard);
+							player1Deck.add(player1DrawCard2);
+							player1Deck.add(player1DrawCard3);
+							player1Deck.add(player1DrawCard4);
+							player1Deck.add(player2DrawCard);
+							player1Deck.add(player2DrawCard2);
+							player1Deck.add(player2DrawCard3);
+							player1Deck.add(player2DrawCard4);
+							System.out.println("Player 1 now has " + player1Deck.size() + " cards left.");
+							System.out.println("Player 2 now has " + player2Deck.size() + " cards left.");
+							System.out.println("\n");
+							keyboard.nextLine();
+						}
+						else if(player1DrawCard4.compareTo(player2DrawCard4) < player2DrawCard4.compareTo(player1DrawCard4)){
+							System.out.println();
+							System.out.println("Player 2 gets all the remaining cards");
+							System.out.println();
+							player2Deck.add(player1DrawCard);
+							player2Deck.add(player1DrawCard2);
+							player2Deck.add(player1DrawCard3);
+							player2Deck.add(player1DrawCard4);
+							player2Deck.add(player2DrawCard);
+							player2Deck.add(player2DrawCard2);
+							player2Deck.add(player2DrawCard3);
+							player2Deck.add(player2DrawCard4);
+							System.out.println("Player 1 now has " + player1Deck.size() + " cards left.");
+							System.out.println("Player 2 now has " + player2Deck.size() + " cards left.");
+							System.out.println("\n");
+							keyboard.nextLine();
+ 						}
+ 					}
+					//while(player1DrawCard4.compareTo(player2DrawCard4) == player2DrawCard4.compareTo(player1DrawCard4));
+				//}
+				//IDW if player has more than 4 cards
+				else if(player1Deck.size() >= 4 || player2Deck.size() >= 4){
+					Card player1DrawCard2 = player1Deck.getTopCard();
+					Card player1DrawCard3 = player1Deck.getTopCard();
+					Card player1DrawCard4 = player1Deck.getTopCard();
+					Card player1DrawCard5 = player1Deck.getTopCard();
+
+					Card player2DrawCard2 = player2Deck.getTopCard();
+					Card player2DrawCard3 = player2Deck.getTopCard();
+					Card player2DrawCard4 = player2Deck.getTopCard();
+					Card player2DrawCard5 = player2Deck.getTopCard();
+					//do{
+						System.out.println("Player1's war card is a " + player1DrawCard5 + " Player2's war card is a " + player2DrawCard5);
+						if(player1DrawCard5.compareTo(player2DrawCard5) > player2DrawCard5.compareTo(player1DrawCard5)){
+							System.out.println();
+							System.out.println("Player 1 gets all the remaining cards");
+							System.out.println();
+							player1Deck.add(player1DrawCard);
+							player1Deck.add(player1DrawCard2);
+							player1Deck.add(player1DrawCard3);
+							player1Deck.add(player1DrawCard4);
+							player1Deck.add(player1DrawCard5);
+							player1Deck.add(player2DrawCard);
+							player1Deck.add(player2DrawCard2);
+							player1Deck.add(player2DrawCard3);
+							player1Deck.add(player2DrawCard4);
+							player1Deck.add(player2DrawCard5);
+							System.out.println("Player 1 now has " + player1Deck.size() + " cards left.");
+							System.out.println("Player 2 now has " + player2Deck.size() + " cards left.");
+							System.out.println("\n");
+							keyboard.nextLine();
+ 						}
+						else if(player1DrawCard5.compareTo(player2DrawCard5) < player2DrawCard5.compareTo(player1DrawCard5)){
+							System.out.println();
+							System.out.println("Player 2 gets all the remaining cards");
+							System.out.println();
+							player2Deck.add(player1DrawCard);
+							player2Deck.add(player1DrawCard2);
+							player2Deck.add(player1DrawCard3);
+							player2Deck.add(player1DrawCard4);
+							player2Deck.add(player1DrawCard5);
+							player2Deck.add(player2DrawCard);
+							player2Deck.add(player2DrawCard2);
+							player2Deck.add(player2DrawCard3);
+							player2Deck.add(player2DrawCard4);
+							player2Deck.add(player1DrawCard5);
+							System.out.println("Player 1 now has " + player1Deck.size() + " cards left.");
+							System.out.println("Player 2 now has " + player2Deck.size() + " cards left.");
+							System.out.println("\n");
+							keyboard.nextLine();
+ 						}
+					}
+					//while(player1DrawCard5.compareTo(player2DrawCard5) == player2DrawCard5.compareTo(player1DrawCard5));
+				//}
+			//}
+			
+			count++;
+			if(count >= 10){
+				player1Deck.shuffle();
+				player2Deck.shuffle();
+				System.out.println("Cards Shuffled");
+				count = 0;
+			}
+	}
+		while(player1Deck.size() > 0 || player2Deck.size() > 0);
+		
+		 }	
+	
+	catch (IndexOutOfBoundsException theException){
+			if(player1Deck.size() == 0){
+				System.out.println("Player 2 wins the game of I Delcare War!" );
+			}
+			else
+			System.out.println("Player 1 wins the game of I Declare War!" );
+			}
+	}
+}
